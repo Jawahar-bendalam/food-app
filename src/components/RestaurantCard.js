@@ -11,11 +11,18 @@ const RestaurantCard = ({ resData }) => {
         src={CDN_URL + cloudinaryImageId}
       />
       <h3>{name}</h3>
-      <h4 style={{ display: "flex", flexWrap: "wrap" }}>
-        {cuisines.join(",")}
-      </h4>
-      <h5>{avgRatingString} Star</h5>
-      <h6>{slaString} ETA</h6>
+      <div
+        style={{
+          width: "100%",
+          textWrap: "wrap",
+        }}
+      >
+        <p>{cuisines.join(",")}</p>
+      </div>
+      <div style={{ display: "flex" }}>
+        <p>{avgRatingString} Star</p>
+        <p>{slaString} ETA</p>
+      </div>
     </div>
   );
 };
