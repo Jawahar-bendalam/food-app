@@ -9,6 +9,7 @@ const Body = () => {
   //making the variable as state variable... whenever the state changes the page re-renders
   const [listOfRes, setlistOfRes] = useState([]);
   const [searchInput, setsearchInput] = useState("");
+  const [filteredRes, setFilteredRes] = useState([]);
 
   useEffect(() => {
     fetchData();
@@ -20,6 +21,10 @@ const Body = () => {
     );
     const jsonRes = await res.json();
     setlistOfRes(
+      jsonRes?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
+        ?.restaurants
+    );
+    setFilteredRes(
       jsonRes?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
         ?.restaurants
     );
@@ -45,7 +50,7 @@ const Body = () => {
               let searchedRes = listOfRes.filter((res) =>
                 res.info.name.toLowerCase().includes(searchInput.toLowerCase())
               );
-              setlistOfRes(searchedRes);
+              setFilteredRes(searchedRes);
             }}
           >
             Search
@@ -54,17 +59,17 @@ const Body = () => {
         <button
           className="filter-btn"
           onClick={() => {
-            let filteredRes = listOfRes.filter(
+            let topRatedRes = listOfRes.filter(
               (res) => res.info.avgRating > 4.5
             );
-            setlistOfRes(filteredRes);
+            setFilteredRes(topRatedRes);
           }}
         >
           Top Rated Restaurants
         </button>
       </div>
       <div className="res-container">
-        {listOfRes.map((restaurant) => (
+        {filteredRes.map((restaurant) => (
           <RestaurantCard key={restaurant.info.id} resData={restaurant} />
         ))}
       </div>
