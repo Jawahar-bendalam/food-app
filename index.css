@@ -10,20 +10,17 @@
 
 .nav-items > ul{
     display: flex;
+    margin-top: 30px;
 }
 
 .nav-items > ul > li{
     padding: 10px;
-    margin: 10px;
     list-style-type: none;
 }
 
-.search-container{
+.filter {
     margin: 10px 0px;
-}
-
-.btn-container {
-    margin: 10px 0px;
+    display: flex;
 }
 
 .res-logo{
@@ -44,5 +41,24 @@
 .res-container{
     display: flex;
     flex-wrap: wrap;
+}
 
+.shimmer-conatiner{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.shimmer-card{
+    height: 300px;
+    width: 150px;
+    background-color: #f0f0f0;
+    margin: 15px;
+}
+
+.login-btn{
+    height: 35px;
+    margin-right: 10px;
+    background-color: lightseagreen;
+    border: 0px solid lightseagreen;
+    border-radius: 8px;
 }
