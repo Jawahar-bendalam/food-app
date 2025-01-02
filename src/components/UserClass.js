@@ -1,7 +1,7 @@
 import React from "react";
 
 class UserClass extends React.Component {
-  //Whenever we are loading a classbased component means we are creatting an instance of the class
+  //Whenever we are loading a classbased component means we are creating an instance of the class
   //Whenever the instance is created constructor will be called...
   //Place for receiving props, creating state
   constructor(props) {
@@ -20,6 +20,9 @@ class UserClass extends React.Component {
       userInfo: jsonData,
     });
   }
+
+  //will be called once the component is removed from the web page
+  componentWillUnmount() {}
 
   render() {
     // destructuring and using the variables

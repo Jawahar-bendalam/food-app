@@ -1,14 +1,16 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { RESINFO_URL } from "../utils/constants";
 import Shimmer from "./Shimmer";
+import useRestaurantInfo from "../utils/hooks/useRestaurantInfo";
 
 const RestaurantMenu = () => {
-  const [resInfo, setresInfo] = useState(null);
+  //We can shift the entire resInfo fetching responsibility into a seperate customhook
 
-  useEffect(() => {
-    fetchMenu();
-  }, []);
+  // const [resInfo, setresInfo] = useState(null);
+
+  // useEffect(() => {
+  //   fetchMenu();
+  // }, []);
 
   //Manual destructuring
   //const parms = useParams();
@@ -17,11 +19,13 @@ const RestaurantMenu = () => {
   //on the fly destructuring
   const { id } = useParams();
 
-  const fetchMenu = async () => {
-    const resData = await fetch(RESINFO_URL + id);
-    const resDataJson = await resData.json();
-    setresInfo(resDataJson.data);
-  };
+  // const fetchMenu = async () => {
+  //   const resData = await fetch(RESINFO_URL + id);
+  //   const resDataJson = await resData.json();
+  //   setresInfo(resDataJson.data);
+  // };
+
+  const resInfo = useRestaurantInfo(id);
 
   if (resInfo === null) return <Shimmer />;
 
@@ -38,7 +42,7 @@ const RestaurantMenu = () => {
       <h3>{costForTwoMessage}</h3>
       <ul>
         {itemCards.map((item) => (
-          <li>
+          <li key={item.card.info.id}>
             {item.card.info.name} - {item.card.info.price / 100}
           </li>
         ))}
