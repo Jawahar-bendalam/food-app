@@ -4,25 +4,19 @@ const RestaurantCard = ({ resData }) => {
   const { name, cuisines, avgRatingString, cloudinaryImageId } = resData.info;
   const { slaString } = resData.info.sla;
   return (
-    <div className="res-card">
+    <div className="w-[150px] bg-transparent rounded-md m-2">
       <img
-        className="res-logo"
+        className="rounded-md h-[150px] w-full"
         alt="res-logo"
         src={CDN_URL + cloudinaryImageId}
       />
-      <h3>{name}</h3>
-      <div
-        style={{
-          width: "100%",
-          textWrap: "wrap",
-        }}
-      >
-        <p>{cuisines.join(",")}</p>
+      <h3 className="text-base font-bold">{name}</h3>
+      <div className="text-gray-500 text-wrap">
+        <p>{cuisines.join(", ")}</p>
       </div>
-      <div style={{ display: "flex" }}>
-        <p>{avgRatingString} Star</p>
-        <p>{slaString} ETA</p>
-      </div>
+      <p className="font-medium">
+        ⭐{avgRatingString} {slaString}
+      </p>
     </div>
   );
 };

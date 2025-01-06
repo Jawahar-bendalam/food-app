@@ -1,12 +1,15 @@
-// import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Shimmer from "./Shimmer";
+import { RESINFO_URL } from "../utils/constants";
+import { MENU_ITEM_URL } from "../utils/constants";
 import useRestaurantInfo from "../utils/hooks/useRestaurantInfo";
 
 const RestaurantMenu = () => {
   //We can shift the entire resInfo fetching responsibility into a seperate customhook
 
   // const [resInfo, setresInfo] = useState(null);
+  const [count, setCount] = useState(0);
 
   // useEffect(() => {
   //   fetchMenu();
@@ -29,24 +32,68 @@ const RestaurantMenu = () => {
 
   if (resInfo === null) return <Shimmer />;
 
-  const { avgRating, costForTwoMessage, name, totalRatingsString } =
+  const { avgRating, costForTwoMessage, name, totalRatingsString, price } =
     resInfo.cards[2]?.card?.card?.info;
   const { itemCards } =
     resInfo.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[2]?.card?.card;
+  const itemUrl = MENU_ITEM_URL;
+
   return (
-    <div>
-      <h1>{name}</h1>
-      <h3>
-        {avgRating} Stars & {totalRatingsString}
-      </h3>
-      <h3>{costForTwoMessage}</h3>
-      <ul>
-        {itemCards.map((item) => (
-          <li key={item.card.info.id}>
-            {item.card.info.name} - {item.card.info.price / 100}
-          </li>
-        ))}
-      </ul>
+    <div className="flex flex-col justify-center items-center">
+      <div className="w-[50%] border-black rounded-md shadow-md p-4">
+        <h1 className="font-bold text-2xl">{name}</h1>
+        <h3>
+          {avgRating} Stars & {totalRatingsString}
+        </h3>
+        <h3>{costForTwoMessage}</h3>
+      </div>
+      <div className="w-[50%]">
+        <ul>
+          {itemCards.map((item) => (
+            <li key={item.card.info.id} className="mt-2">
+              <div className="flex justify-between mb-2">
+                <div>
+                  <h1>
+                    {item.card.info.itemAttribute.vegClassifier === "VEG"
+                      ? "🟢"
+                      : "🔴"}
+                    {item.card.info.name}
+                  </h1>
+                  <p>
+                    ₹{" "}
+                    {item.card.info.price
+                      ? item.card.info.price / 100
+                      : item.card.info.defaultPrice / 100}
+                  </p>
+                  {item.card?.info?.ratings?.aggregatedRating?.rating ? (
+                    <p>
+                      ⭐{item.card?.info?.ratings?.aggregatedRating?.rating} (
+                      {
+                        item.card?.info?.ratings?.aggregatedRating
+                          ?.ratingCountV2
+                      }
+                      )
+                    </p>
+                  ) : (
+                    <p>No ratings</p>
+                  )}
+                </div>
+                <div className="flex flex-col justify-center">
+                  <img
+                    className="rounded-md"
+                    src={itemUrl + item.card.info.imageId}
+                    alt="item-img"
+                  />
+                  <button className="rounded-md py-1 px-2 text-green-600 shadow-md font-bold">
+                    ADD
+                  </button>
+                </div>
+              </div>
+              <hr />
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
