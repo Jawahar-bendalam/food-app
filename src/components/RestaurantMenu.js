@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import Shimmer from "./Shimmer";
 import { MENU_ITEM_URL } from "../utils/constants";
 import useRestaurantInfo from "../utils/hooks/useRestaurantInfo";
+import ItemCategory from "./ItemCategory";
 
 const RestaurantMenu = () => {
   //We can shift the entire resInfo fetching responsibility into a seperate customhook
@@ -35,6 +36,14 @@ const RestaurantMenu = () => {
     resInfo.cards[2]?.card?.card?.info;
   const { itemCards } =
     resInfo.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[2]?.card?.card;
+
+  const categories =
+    resInfo.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
+      (e) =>
+        e.card.card?.["@type"] ===
+        "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+    );
+
   const itemUrl = MENU_ITEM_URL;
 
   return (
@@ -42,10 +51,10 @@ const RestaurantMenu = () => {
       <div className="w-[50%] border-black rounded-md shadow-md p-4 flex justify-between items-center">
         <div>
           <h1 className="font-bold text-2xl">{name}</h1>
-          <h3 className="font-bold">
+          <h3 className="font-semibold">
             {avgRating} Stars & {totalRatingsString}
           </h3>
-          <h3 className="font-bold">{costForTwoMessage}</h3>
+          <h3 className="font-semibold">{costForTwoMessage}</h3>
         </div>
         <div>
           <button
@@ -75,7 +84,7 @@ const RestaurantMenu = () => {
         </div>
       </div>
       <div className="w-[50%]">
-        <ul>
+        {/* <ul>
           {(itemFilter
             ? itemCards.filter(
                 (item) =>
@@ -125,7 +134,10 @@ const RestaurantMenu = () => {
               <hr />
             </li>
           ))}
-        </ul>
+        </ul> */}
+        {categories.map((category) => (
+          <ItemCategory categoryData={category.card.card} />
+        ))}
       </div>
     </div>
   );
