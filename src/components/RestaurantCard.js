@@ -21,4 +21,22 @@ const RestaurantCard = ({ resData }) => {
   );
 };
 
+//higher order component
+// is a fn that takes a component as an input
+//return the enhanced version of the component as an output
+export const withOpenLabel = (RestaurantCard) => {
+  //returns a functional component
+  return (props) => {
+    // functional component is a js fn that returns a piece of jsx
+    return (
+      <>
+        <label className="absolute bg-green-500 text-white px-1 ml-2 mt-2 rounded-md">
+          Open
+        </label>
+        <RestaurantCard {...props} />
+      </>
+    );
+  };
+};
+
 export default RestaurantCard;

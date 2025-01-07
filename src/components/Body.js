@@ -1,4 +1,4 @@
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard, { withOpenLabel } from "./RestaurantCard";
 import Shimmer from "./Shimmer";
 import { useState, useEffect } from "react";
 import useOnlineStatus from "../utils/hooks/useOnlineStatus";
@@ -32,6 +32,10 @@ const Body = () => {
         ?.restaurants
     );
   };
+
+  // catching the functional component in a variable
+  // by calling the higher order function along with the respective input component
+  const RestaurantCardWithOpenLabel = withOpenLabel(RestaurantCard);
 
   if (onlineStatus === false)
     return <h1>Semms like you are offline, Please check your connection </h1>;
@@ -81,7 +85,13 @@ const Body = () => {
             to={`/restaurant/${restaurant.info.id}`}
             key={restaurant.info.id}
           >
-            <RestaurantCard resData={restaurant} />
+            {restaurant.info.isOpen ? (
+              <RestaurantCardWithOpenLabel resData={restaurant} />
+            ) : (
+              <RestaurantCard resData={restaurant} />
+            )}
+
+            {/* <PromotedRestaurantCard resData={restaurant} /> */}
           </Link>
         ))}
       </div>
